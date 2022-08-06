@@ -1,0 +1,6 @@
+06.08.2022 13:33:09.499 [main] INFO   c.p.m.Multiplication - start Programm
+06.08.2022 13:33:09.512 [main] ERROR  c.p.m.ReaderProperties - Error, read external file! 
+06.08.2022 13:33:09.514 [main] INFO   c.p.m.Multiplication - get all properties
+06.08.2022 13:33:59.977 [main] INFO   c.p.m.Multiplication - start Programm
+06.08.2022 13:33:59.980 [main] ERROR  c.p.m.ReaderProperties - Error, read external file! 
+06.08.2022 13:33:59.981 [main] INFO   c.p.m.Multiplication - get all properties
