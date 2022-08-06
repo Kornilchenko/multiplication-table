@@ -24,14 +24,20 @@ public class Multiplication {
         ReaderProperties property = new ReaderProperties("external.properties");
         if (property.getMinimal() == null)
             log.error("no values in properties, program exit");
-        else if(property.getMinimal()> property.getMaximum())
+        else if (property.getMinimal() > property.getMaximum())
             log.error("variable error minimum greater than maximum");
-        else if(property.getMaximum()- property.getMinimal()<= property.getIncrement())
+        else if (property.getMaximum() - property.getMinimal() <= property.getIncrement())
             log.error("the increment is greater than or equal to the difference between the maximum and minimum values");
         else
             multiplication(property, readingArguments(args));
     }
 
+    /**
+     * reads arguments devotees with the program
+     *
+     * @param argumens - argument betrayed at startup
+     * @return -
+     */
     private static char readingArguments(String[] argumens) {
         if (argumens.length == 0)
             return 'i';
@@ -53,6 +59,12 @@ public class Multiplication {
         return 'i';
     }
 
+    /**
+     * prints the result of multiplication to the console in the form of a table
+     *
+     * @param property - read file properties
+     * @param type     - variable type
+     */
     private static void multiplication(ReaderProperties property, char type) {
         double minimal = property.getMinimal();
         double maximal = property.getMaximum();
@@ -68,7 +80,7 @@ public class Multiplication {
                 }
                 System.out.println();
             }
-        } else if (type == 'f' || type == 'd') {
+        } else {
             for (double n = minimal; n <= maximal; n += increment) {
                 for (double m = minimal; m <= maximal; m += increment) {
                     System.out.printf("%.3f", m * n);
