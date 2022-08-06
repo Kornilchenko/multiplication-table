@@ -60,8 +60,7 @@ public class ReaderProperties {
         if (properties.containsKey(KEYS[0]) && properties.containsKey(KEYS[1]) && properties.containsKey(KEYS[2])) {
             for (int i = 0; i < KEYS.length; ++i) {
                 String temp = properties.getProperty(KEYS[i]);
-                temp = temp.replace(" ", "");
-                temp = temp.replace(",", ".");
+                temp = temp.replace(" ", "").replace(",", ".");
                 if (!checkArgumentForValue(temp))
                     return true;
                 PROPERTY_VALUES.add(Double.parseDouble(temp));
@@ -90,21 +89,21 @@ public class ReaderProperties {
     /**
      * @return - value from properties whose key "min"
      */
-    public double getMinimal() {
+    public Double getMinimal() {
         return PROPERTY_VALUES.get(0);
     }
 
     /**
      * @return - value from properties whose key "max"
      */
-    public double getMaximum() {
+    public Double getMaximum() {
         return PROPERTY_VALUES.get(1);
     }
 
     /**
      * @return - value from properties whose key "increment"
      */
-    public double getIncrement() {
+    public Double getIncrement() {
         return PROPERTY_VALUES.get(2);
     }
 }
