@@ -37,12 +37,15 @@ public class ReaderProperties {
     }
 
     private boolean readPropertiesFromFile(Properties properties){
-        if(properties.contains("min") || properties.contains("max") || properties.contains("increment")){
+        log.info("check the properties file for the required values");
+        if(properties.containsKey("min") && properties.containsKey("max") && properties.containsKey("increment")){
             minimum = Double.parseDouble(properties.getProperty("min"));
             maximum = Double.parseDouble(properties.getProperty("max"));
             increment = Integer.parseInt(properties.getProperty("increment"));
+            log.info("properties from the file are read");
             return false;
         }
+        log.debug("properties file does not contain required properties");
         return true;
     }
     public double getMinimal(){
