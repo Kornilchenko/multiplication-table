@@ -20,28 +20,30 @@ public class ReaderProperties {
      * class constructor
      *
      * @param fileProperties - external file to read properties
-     * @throws Exception - error reading external file
+     * @throws IOException - error reading external file
      */
     public ReaderProperties(String fileProperties) throws IOException {
         log.info("run constructor ReaderProperties class");
         Properties properties = new Properties();
-        try {
-            log.info("read external file properties");
-            FileInputStream fis = new FileInputStream(fileProperties);
 
-            log.info("get properties from external file");
-            properties.load(new InputStreamReader(fis, StandardCharsets.UTF_8));
-            fis.close();
-        } catch (IOException e) {
+        log.info("read external file properties");
+        try (
+                FileInputStream fis = new FileInputStream(fileProperties);
+                InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8)
+        ) {
+            properties.load(isr);
+        }
+        catch (IOException e) {
             log.error("Error, read external file! ");
         }
-        if (!readPropertiesFromFile(properties)) {
+        if (readPropertiesFromMyFile(properties)) {
             InputStream inputStream = Multiplication.class.getClassLoader().getResourceAsStream("internal.properties");
             assert inputStream != null;
             properties.load(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         }
-        if(!readPropertiesFromFile(properties)){
-            for(int i=0; i<PROPERTY_VALUES.size(); ++i) {
+        if (readPropertiesFromMyFile(properties)) {
+            log.error("no indicators for mathematical operations");
+            for (int i = 0; i < PROPERTY_VALUES.size(); ++i) {
                 PROPERTY_VALUES.add(null);
             }
         }
@@ -53,7 +55,7 @@ public class ReaderProperties {
      * @param properties - properties written in the file
      * @return - true if the required property keys exist and they contain numeric values
      */
-    private boolean readPropertiesFromFile(Properties properties) {
+    private boolean readPropertiesFromMyFile(Properties properties) {
         log.info("check the properties file for the required values");
         if (properties.containsKey(KEYS[0]) && properties.containsKey(KEYS[1]) && properties.containsKey(KEYS[2])) {
             for (int i = 0; i < KEYS.length; ++i) {
@@ -61,14 +63,14 @@ public class ReaderProperties {
                 temp = temp.replace(" ", "");
                 temp = temp.replace(",", ".");
                 if (!checkArgumentForValue(temp))
-                    return false;
+                    return true;
                 PROPERTY_VALUES.add(Double.parseDouble(temp));
             }
             log.info("properties from the file are read");
-            return true;
+            return false;
         }
         log.debug("properties file does not contain required properties");
-        return false;
+        return true;
     }
 
     /**
