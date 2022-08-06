@@ -24,25 +24,23 @@ public class Multiplication
     private static final Logger log = LoggerFactory.getLogger(Multiplication.class);
     public static void main( String[] args ) throws IOException {
         log.info("start Programm");
-        ReaderProperties  property = new ReaderProperties();
-
+        log.info("read properties");
+        ReaderProperties  property = new ReaderProperties("external.properties");
         char type = readingArguments(args);
-        if(type == 'i'){
-
-        }
 
 
-        int min = property.getMinimal();
+
+        /*int min = property.getMinimal();
         int max  = property.getMaximum();
-        int inc = property.getIncrement();
+        int inc = property.getIncrement();*/
         log.info("get all properties");
-        for(int n=min;n<=max; n+=inc){
+        /*for(int n=min;n<=max; n+=inc){
             for(int m =min; m<=max; m+=inc){
                 System.out.print(m*n + "\t");
             }
             System.out.println();
         }
-        var tryu=5;
+        var tryu=5;*/
     }
 
     private static char readingArguments(String[] argumens){

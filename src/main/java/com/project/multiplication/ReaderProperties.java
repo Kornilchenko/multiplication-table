@@ -13,38 +13,42 @@ import java.util.Properties;
 public class ReaderProperties {
     private static final Logger log = LoggerFactory.getLogger(ReaderProperties.class);
     private int increment;
-    private int  minimum;
-    private int maximum;
+    private double minimum;
+    private double maximum;
 
-    public ReaderProperties() throws IOException {
+    public ReaderProperties(String fileProperties) throws IOException {
+        log.info("run constructor ReaderProperties class");
         Properties properties = new Properties();
-        String propInternalFileName = "internal.properties";
-        String thePathToExternalFile = "external.properties";
-
         try {
-            FileInputStream fis = new FileInputStream(thePathToExternalFile);
+            log.info("read external file properties");
+            FileInputStream fis = new FileInputStream(fileProperties);
+            log.info("get properties from external file");
             properties.load(new InputStreamReader(fis, StandardCharsets.UTF_8));
-
+            fis.close();
         } catch (IOException e) {
             log.error("Error, read external file! ");
         }
-
-
-        if(properties.isEmpty()){
-            InputStream inputStream = Multiplication.class.getClassLoader().getResourceAsStream(propInternalFileName);
+        if(readPropertiesFromFile(properties)){
+            InputStream inputStream = Multiplication.class.getClassLoader().getResourceAsStream("internal.properties");
             assert inputStream != null;
             properties.load(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         }
-
-        double min = Integer.parseInt(properties.getProperty("min"));
-        double max = Integer.parseInt(properties.getProperty("max"));
-         increment = Integer.parseInt(properties.getProperty("increment"));
+        readPropertiesFromFile(properties);
     }
 
-    public int getMinimal(){
+    private boolean readPropertiesFromFile(Properties properties){
+        if(properties.contains("min") || properties.contains("max") || properties.contains("increment")){
+            minimum = Double.parseDouble(properties.getProperty("min"));
+            maximum = Double.parseDouble(properties.getProperty("max"));
+            increment = Integer.parseInt(properties.getProperty("increment"));
+            return false;
+        }
+        return true;
+    }
+    public double getMinimal(){
         return minimum;
     }
-    public int getMaximum(){
+    public double getMaximum(){
         return maximum;
     }
     public int getIncrement(){
