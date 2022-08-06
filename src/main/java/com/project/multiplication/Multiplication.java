@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.util.Locale;
 
 
 /*
@@ -23,7 +24,14 @@ public class Multiplication
     private static final Logger log = LoggerFactory.getLogger(Multiplication.class);
     public static void main( String[] args ) throws IOException {
         log.info("start Programm");
-        ReaderProperties  property = new ReaderProperties("prop");
+        ReaderProperties  property = new ReaderProperties();
+
+        char type = readingArguments(args);
+        if(type == 'i'){
+
+        }
+
+
         int min = property.getMinimal();
         int max  = property.getMaximum();
         int inc = property.getIncrement();
@@ -34,5 +42,20 @@ public class Multiplication
             }
             System.out.println();
         }
+        var tryu=5;
+    }
+
+    private static char readingArguments(String[] argumens){
+        if(argumens.length == 0)
+            return 'i';
+        for(String arg: argumens) {
+            if (arg.toLowerCase().equals("int") || arg.toLowerCase().equals("integer"))
+                return 'i';
+            if (arg.toLowerCase().equals("double"))
+                return 'd';
+            if (arg.toLowerCase().equals("float"))
+                return 'f';
+        }
+        return 'i';
     }
 }

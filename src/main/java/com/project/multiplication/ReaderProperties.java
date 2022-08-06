@@ -13,10 +13,10 @@ import java.util.Properties;
 public class ReaderProperties {
     private static final Logger log = LoggerFactory.getLogger(ReaderProperties.class);
     private int increment;
-    private int minimum;
+    private int  minimum;
     private int maximum;
 
-    public ReaderProperties(String nameFile) throws IOException {
+    public ReaderProperties() throws IOException {
         Properties properties = new Properties();
         String propInternalFileName = "internal.properties";
         String thePathToExternalFile = "external.properties";
@@ -36,15 +36,14 @@ public class ReaderProperties {
             properties.load(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         }
 
-         minimum = Integer.parseInt(properties.getProperty("min"));
-         maximum = Integer.parseInt(properties.getProperty("max"));
+        double min = Integer.parseInt(properties.getProperty("min"));
+        double max = Integer.parseInt(properties.getProperty("max"));
          increment = Integer.parseInt(properties.getProperty("increment"));
     }
 
     public int getMinimal(){
         return minimum;
     }
-
     public int getMaximum(){
         return maximum;
     }
