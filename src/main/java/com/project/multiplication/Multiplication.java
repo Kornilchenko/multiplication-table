@@ -22,7 +22,7 @@ import java.util.Locale;
 public class Multiplication
 {
     private static final Logger log = LoggerFactory.getLogger(Multiplication.class);
-    public static void main( String[] args ) throws IOException {
+    public static void main( String[] args ) throws Exception {
         log.info("start Programm");
         log.info("read properties");
         ReaderProperties  property = new ReaderProperties("external.properties");
