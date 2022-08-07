@@ -21,42 +21,44 @@ class TestMultiplication {
 
     @Test
     void NoFirstArgument1() throws IOException {
-        String [] str = new String[]{"min =\n","max =5, 9\n","increment =0. 3 \n"};
+        String [] str = new String[]{"min =\n","max =8, 9\n","increment =1. 3 \n"};
         writeFileProperties(str, "external.properties");
         ReaderProperties read = new ReaderProperties("external.properties");
         assertEquals(13.55, read.getMinimal());
         assertEquals(20.82, read.getMaximum());
-        assertEquals(0.8, read.getIncrement());
+        assertEquals(1.8, read.getIncrement());
     }
 
     @Test
     void NoFirstArgument2() throws IOException {
-        String [] str = new String[]{"mini =3 , 5\n","max =5, 9\n","increment =0. 3 \n"};
+        String [] str = new String[]{"mini =3 , 5\n","max =8, 9\n","increment =1. 3 \n"};
         writeFileProperties(str, "external.properties");
         ReaderProperties read = new ReaderProperties("external.properties");
         assertEquals(13.55, read.getMinimal());
         assertEquals(20.82, read.getMaximum());
-        assertEquals(0.8, read.getIncrement());
+        assertEquals(1.8, read.getIncrement());
+        String [] str1 = new String[]{"min =3 , 5\n","max =8, 9\n","increment =1. 3 \n"};
+        writeFileProperties(str, "external.properties");
     }
 
     @Test
     void NoSecondArgument1() throws IOException {
-        String [] str = new String[]{"min =1.555\n","max =\n","increment =0. 3 \n"};
+        String [] str = new String[]{"min =1.555\n","max =\n","increment =1. 3 \n"};
         writeFileProperties(str, "external.properties");
         ReaderProperties read = new ReaderProperties("external.properties");
         assertEquals(13.55, read.getMinimal());
         assertEquals(20.82, read.getMaximum());
-        assertEquals(0.8, read.getIncrement());
+        assertEquals(1.8, read.getIncrement());
     }
 
     @Test
     void NoSecondArgument2() throws IOException {
-        String [] str = new String[]{"min =3 , 5\n","maximum =5, 9\n","increment =0. 3 \n"};
+        String [] str = new String[]{"min =3 , 5\n","maximum =8, 9\n","increment =1. 3 \n"};
         writeFileProperties(str, "external.properties");
         ReaderProperties read = new ReaderProperties("external.properties");
         assertEquals(13.55, read.getMinimal());
         assertEquals(20.82, read.getMaximum());
-        assertEquals(0.8, read.getIncrement());
+        assertEquals(1.8, read.getIncrement());
     }
 
     @Test
@@ -66,28 +68,28 @@ class TestMultiplication {
         ReaderProperties read = new ReaderProperties("external.properties");
         assertEquals(13.55, read.getMinimal());
         assertEquals(20.82, read.getMaximum());
-        assertEquals(0.8, read.getIncrement());
+        assertEquals(1.8, read.getIncrement());
 
     }
 
     @Test
     void NoThirdArgument2() throws IOException {
-        String [] str = new String[]{"min =3 , 5\n","max =5, 9\n","incrementik =0. 3 \n"};
+        String [] str = new String[]{"min =3 , 5\n","max =8, 9\n","incrementik =1. 3 \n"};
         writeFileProperties(str, "external.properties");
         ReaderProperties read = new ReaderProperties("external.properties");
         assertEquals(13.55, read.getMinimal());
         assertEquals(20.82, read.getMaximum());
-        assertEquals(0.8, read.getIncrement());
+        assertEquals(1.8, read.getIncrement());
     }
 
     @Test
     void testTrue() throws IOException {
-        String [] str = new String[]{"min =3 , 5\n","max =5, 9\n","increment =0. 3 \n"};
+        String [] str = new String[]{"min =3 , 5\n","max =8, 9\n","increment =1. 3 \n"};
         writeFileProperties(str, "external.properties");
         ReaderProperties read = new ReaderProperties("external.properties");
         assertEquals(3.5, read.getMinimal());
-        assertEquals(5.9, read.getMaximum());
-        assertEquals(0.3, read.getIncrement());
+        assertEquals(8.9, read.getMaximum());
+        assertEquals(1.3, read.getIncrement());
     }
     /*@Test
     void falseInternalFileData() throws IOException {
