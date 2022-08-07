@@ -24,22 +24,9 @@ public class ReaderProperties {
      */
     public ReaderProperties(String fileProperties) throws IOException {
         log.info("run constructor ReaderProperties class");
-        Properties properties = new Properties();
-
-        log.info("read external file properties");
-        try (
-                FileInputStream fis = new FileInputStream(fileProperties);
-                InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8)
-        ) {
-            properties.load(isr);
-        }
-        catch (IOException e) {
-            log.error("Error, read external file! ");
-        }
+        Properties properties = readExternalFile(fileProperties);
         if (readPropertiesFromMyFile(properties)) {
-            InputStream inputStream = Multiplication.class.getClassLoader().getResourceAsStream("internal.properties");
-            assert inputStream != null;
-            properties.load(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            properties = readInternalFile();
         }
         if (readPropertiesFromMyFile(properties)) {
             log.error("no indicators for mathematical operations");
@@ -47,6 +34,41 @@ public class ReaderProperties {
                 PROPERTY_VALUES.add(null);
             }
         }
+    }
+
+    /**
+     * reading an internal properties file
+     *
+     * @return - properties file
+     * @throws IOException - error reading external file
+     */
+    private Properties readInternalFile() throws IOException {
+        Properties properties = new Properties();
+        log.info("read internal file properties");
+        InputStream inputStream = Multiplication.class.getClassLoader().getResourceAsStream("internal.properties");
+        assert inputStream != null;
+        properties.load(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+        return properties;
+    }
+
+    /**
+     * reading an external properties file
+     *
+     * @param fileName - external file to read properties
+     * @return - properties file
+     */
+    private Properties readExternalFile(String fileName) {
+        Properties properties = new Properties();
+        log.info("read external file properties");
+        try (
+                FileInputStream fis = new FileInputStream(fileName);
+                InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8)
+        ) {
+            properties.load(isr);
+        } catch (IOException e) {
+            log.error("Error, read external file! ");
+        }
+        return properties;
     }
 
     /**
