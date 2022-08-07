@@ -132,4 +132,8 @@ public class ReaderProperties {
     public Double getIncrement() {
         return propertyValues.get(2);
     }
+
+    public boolean readingResults(){
+        return propertyValues.get(0) !=null;
+    }
 }
