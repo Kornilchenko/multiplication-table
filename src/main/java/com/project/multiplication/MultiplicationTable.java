@@ -34,6 +34,7 @@ public class MultiplicationTable {
         return 'i';
     }
 
+    // комент
 
     public void showMultiplicationTable() {
         if (type == 'i') {
