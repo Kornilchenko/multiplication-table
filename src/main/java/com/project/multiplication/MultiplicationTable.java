@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 public class MultiplicationTable {
     private static final Logger log = LoggerFactory.getLogger(MultiplicationTable.class);
-    private Number minimal;
-    private Number maximal;
-    private Number increment;
+    private final Number minimal;
+    private final Number maximal;
+    private final Number increment;
     char type;
 
     public MultiplicationTable(Double min, Double max, Double inc, String [] args){
