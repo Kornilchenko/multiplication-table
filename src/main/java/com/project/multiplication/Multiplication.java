@@ -74,6 +74,8 @@ public class Multiplication {
             int min = (int) minimal;
             int max = (int) maximal;
             int inc = (int) increment;
+            if (inc == 0)
+                inc = 1;
             for (int n = min; n <= max; n += inc) {
                 for (int m = min; m <= max; m += inc) {
                     System.out.print(m * n + "\t");
