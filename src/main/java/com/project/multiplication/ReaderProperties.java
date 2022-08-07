@@ -25,12 +25,14 @@ public class ReaderProperties {
     public ReaderProperties(String fileProperties) throws IOException {
         log.info("run constructor ReaderProperties class");
         Properties properties = readExternalFile(fileProperties);
-        if (readPropertiesFromMyFile(properties)) {
+        boolean reads = readPropertiesFromMyFile(properties);
+        if (!reads) {
             properties = readInternalFile();
+            reads = readPropertiesFromMyFile(properties);
         }
-        if (readPropertiesFromMyFile(properties)) {
+        if (!reads) {
             log.error("no indicators for mathematical operations");
-            for (int i = 0; i < PROPERTY_VALUES.size(); ++i) {
+            for (int i = 0; i < KEYS.length; ++i) {
                 PROPERTY_VALUES.add(null);
             }
         }
@@ -83,15 +85,17 @@ public class ReaderProperties {
             for (int i = 0; i < KEYS.length; ++i) {
                 String temp = properties.getProperty(KEYS[i]);
                 temp = temp.replace(" ", "").replace(",", ".");
-                if (!checkArgumentForValue(temp))
-                    return true;
+                if (!checkArgumentForValue(temp)) {
+                    PROPERTY_VALUES.clear();
+                    return false;
+                }
                 PROPERTY_VALUES.add(Double.parseDouble(temp));
             }
             log.info("properties from the file are read");
-            return false;
+            return true;
         }
         log.debug("properties file does not contain required properties");
-        return true;
+        return false;
     }
 
     /**
