@@ -1,7 +1,6 @@
 package com.project.multiplication;
 
 import org.junit.jupiter.api.Test;
-
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -105,3 +104,4 @@ class TestMultiplication {
         writeFileProperties(strInternalTrue, "src\\main\\resources\\internal.properties");
     }*/
 }
+
