@@ -28,68 +28,11 @@ public class Multiplication {
             log.error("variable error minimum greater than maximum");
         else if (property.getMaximum() - property.getMinimal() <= property.getIncrement())
             log.error("the increment is greater than or equal to the difference between the maximum and minimum values");
-        else
-            multiplication(property, readingArguments(args));
-    }
-
-    /**
-     * reads arguments devotees with the program
-     *
-     * @param argumens - argument betrayed at startup
-     * @return -
-     */
-    private static char readingArguments(String[] argumens) {
-        if (argumens.length == 0)
-            return 'i';
-        for (String arg : argumens) {
-            if (arg.equalsIgnoreCase("int") || arg.equalsIgnoreCase("integer")) {
-                log.info("type variable int");
-                return 'i';
-            }
-            if (arg.equalsIgnoreCase("double")) {
-                log.info("type variable double");
-                return 'd';
-            }
-            if (arg.equalsIgnoreCase("float")) {
-                log.info("type variable float");
-                return 'f';
-            }
-        }
-        log.info("default type variable int");
-        return 'i';
-    }
-
-    /**
-     * prints the result of multiplication to the console in the form of a table
-     *
-     * @param property - read file properties
-     * @param type     - variable type
-     */
-    private static void multiplication(ReaderProperties property, char type) {
-        double minimal = property.getMinimal();
-        double maximal = property.getMaximum();
-        double increment = property.getIncrement();
-
-        if (type == 'i') {
-            int min = (int) minimal;
-            int max = (int) maximal;
-            int inc = (int) increment;
-            if (inc == 0)
-                inc = 1;
-            for (int n = min; n <= max; n += inc) {
-                for (int m = min; m <= max; m += inc) {
-                    System.out.print(m * n + "\t");
-                }
-                System.out.println();
-            }
-        } else {
-            for (double n = minimal; n <= maximal; n += increment) {
-                for (double m = minimal; m <= maximal; m += increment) {
-                    System.out.printf("%.3f", m * n);
-                    System.out.print("\t");
-                }
-                System.out.println();
-            }
+        else {
+            MultiplicationTable multable = new MultiplicationTable(property.getMinimal(),
+                    property.getMaximum(), property.getIncrement(), args);
+            multable.showMultiplicationTable();
         }
     }
+
 }
