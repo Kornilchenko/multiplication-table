@@ -14,7 +14,7 @@ import java.util.Properties;
 public class ReaderProperties {
     private static final Logger log = LoggerFactory.getLogger(ReaderProperties.class);
     private static final String[] KEYS = new String[]{"min", "max", "increment"};
-    private static final ArrayList<Double> PROPERTY_VALUES = new ArrayList<>(KEYS.length);
+    private final ArrayList<Double> propertyValues = new ArrayList<>(KEYS.length);
 
     /**
      * class constructor
@@ -33,7 +33,7 @@ public class ReaderProperties {
         if (!reads) {
             log.error("no indicators for mathematical operations");
             for (int i = 0; i < KEYS.length; ++i) {
-                PROPERTY_VALUES.add(null);
+                propertyValues.add(null);
             }
         }
     }
@@ -86,10 +86,10 @@ public class ReaderProperties {
                 String temp = properties.getProperty(KEYS[i]);
                 temp = temp.replace(" ", "").replace(",", ".");
                 if (!checkArgumentForValue(temp)) {
-                    PROPERTY_VALUES.clear();
+                    propertyValues.clear();
                     return false;
                 }
-                PROPERTY_VALUES.add(Double.parseDouble(temp));
+                propertyValues.add(Double.parseDouble(temp));
             }
             log.info("properties from the file are read");
             return true;
@@ -116,20 +116,20 @@ public class ReaderProperties {
      * @return - value from properties whose key "min"
      */
     public Double getMinimal() {
-        return PROPERTY_VALUES.get(0);
+        return propertyValues.get(0);
     }
 
     /**
      * @return - value from properties whose key "max"
      */
     public Double getMaximum() {
-        return PROPERTY_VALUES.get(1);
+        return propertyValues.get(1);
     }
 
     /**
      * @return - value from properties whose key "increment"
      */
     public Double getIncrement() {
-        return PROPERTY_VALUES.get(2);
+        return propertyValues.get(2);
     }
 }
