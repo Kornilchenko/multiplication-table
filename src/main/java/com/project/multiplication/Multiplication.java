@@ -3,9 +3,6 @@ package com.project.multiplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-
-
 /*
 Реалізувати програму, яка видасть в консоль табличку множення для чисел,
 тип яких задається системною змінною (по дефолту int),
@@ -18,21 +15,81 @@ import java.io.*;
 Створити мерж-реквест із dev до master
 Запустіть, що змержили на іншому комп’ютері автоматично, using Jenkins.
  */
-public class Multiplication
-{
+public class Multiplication {
     private static final Logger log = LoggerFactory.getLogger(Multiplication.class);
-    public static void main( String[] args ) throws IOException {
+
+    public static void main(String[] args) throws Exception {
         log.info("start Programm");
-        ReaderProperties  property = new ReaderProperties("prop");
-        int min = property.getMinimal();
-        int max  = property.getMaximum();
-        int inc = property.getIncrement();
-        log.info("get all properties");
-        for(int n=min;n<=max; n+=inc){
-            for(int m =min; m<=max; m+=inc){
-                System.out.print(m*n + "\t");
+        log.info("read properties");
+        ReaderProperties property = new ReaderProperties("external.properties");
+        if (property.getMinimal() == null)
+            log.error("no values in properties, program exit");
+        else if (property.getMinimal() > property.getMaximum())
+            log.error("variable error minimum greater than maximum");
+        else if (property.getMaximum() - property.getMinimal() <= property.getIncrement())
+            log.error("the increment is greater than or equal to the difference between the maximum and minimum values");
+        else
+            multiplication(property, readingArguments(args));
+    }
+
+    /**
+     * reads arguments devotees with the program
+     *
+     * @param argumens - argument betrayed at startup
+     * @return -
+     */
+    private static char readingArguments(String[] argumens) {
+        if (argumens.length == 0)
+            return 'i';
+        for (String arg : argumens) {
+            if (arg.equalsIgnoreCase("int") || arg.equalsIgnoreCase("integer")) {
+                log.info("type variable int");
+                return 'i';
             }
-            System.out.println();
+            if (arg.equalsIgnoreCase("double")) {
+                log.info("type variable double");
+                return 'd';
+            }
+            if (arg.equalsIgnoreCase("float")) {
+                log.info("type variable float");
+                return 'f';
+            }
+        }
+        log.info("default type variable int");
+        return 'i';
+    }
+
+    /**
+     * prints the result of multiplication to the console in the form of a table
+     *
+     * @param property - read file properties
+     * @param type     - variable type
+     */
+    private static void multiplication(ReaderProperties property, char type) {
+        double minimal = property.getMinimal();
+        double maximal = property.getMaximum();
+        double increment = property.getIncrement();
+
+        if (type == 'i') {
+            int min = (int) minimal;
+            int max = (int) maximal;
+            int inc = (int) increment;
+            if (inc == 0)
+                inc = 1;
+            for (int n = min; n <= max; n += inc) {
+                for (int m = min; m <= max; m += inc) {
+                    System.out.print(m * n + "\t");
+                }
+                System.out.println();
+            }
+        } else {
+            for (double n = minimal; n <= maximal; n += increment) {
+                for (double m = minimal; m <= maximal; m += increment) {
+                    System.out.printf("%.3f", m * n);
+                    System.out.print("\t");
+                }
+                System.out.println();
+            }
         }
     }
 }
