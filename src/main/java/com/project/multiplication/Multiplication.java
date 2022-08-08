@@ -19,21 +19,12 @@ public class Multiplication {
     private static final Logger log = LoggerFactory.getLogger(Multiplication.class);
 
     public static void main(String[] args) throws Exception {
-        log.info("start Programm");
-        log.info("read properties");
+        log.debug("start Programm");
+        log.debug("read properties");
         ReaderProperties property = new ReaderProperties("external.properties");
-        if (property.getMinimal() == null)
-            log.error("no values in properties, program exit");
-        else if (property.getMinimal() > property.getMaximum())
-            log.error("variable error minimum greater than maximum");
-        else if (property.getMaximum() - property.getMinimal() <= property.getIncrement())
-            log.error("the increment is greater than or equal to the difference between the maximum and minimum values");
-        else {
-            MultiplicationTable multable = new MultiplicationTable(property.getMinimal(),
-                    property.getMaximum(), property.getIncrement(), args);
-            multable.showMultiplicationTable();
-        }
+
+        MultiplicationTable multable = new MultiplicationTable(property.getMinimal(),
+                property.getMaximum(), property.getIncrement(), args);
+        multable.showMultiplicationTable();
     }
-
-
 }

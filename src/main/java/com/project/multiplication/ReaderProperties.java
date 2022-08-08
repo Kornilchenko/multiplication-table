@@ -8,13 +8,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Properties;
+import java.util.*;
 
 public class ReaderProperties {
     private static final Logger log = LoggerFactory.getLogger(ReaderProperties.class);
-    private static final String[] KEYS = new String[]{"min", "max", "increment"};
-    private final ArrayList<Double> propertyValues = new ArrayList<>(KEYS.length);
+    private final HashMap<String, Double> property;
 
     /**
      * class constructor
@@ -24,17 +22,21 @@ public class ReaderProperties {
      */
     public ReaderProperties(String fileProperties) throws IOException {
         log.info("run constructor ReaderProperties class");
+        property = new HashMap<>();
+        property.put("min", null);
+        property.put("max", null);
+        property.put("increment", null);
         Properties properties = readExternalFile(fileProperties);
         boolean reads = readPropertiesFromMyFile(properties);
         if (!reads) {
             properties = readInternalFile();
             reads = readPropertiesFromMyFile(properties);
         }
-        if (!reads) {
-            log.error("no indicators for mathematical operations");
-            for (int i = 0; i < KEYS.length; ++i) {
-                propertyValues.add(null);
+        if(!reads){
+            for (Map.Entry<String, Double> item : property.entrySet()) {
+                item.setValue(null);
             }
+            log.debug("no required properties");
         }
     }
 
@@ -46,7 +48,7 @@ public class ReaderProperties {
      */
     private Properties readInternalFile() throws IOException {
         Properties properties = new Properties();
-        log.info("read internal file properties");
+        log.debug("read internal file properties");
         InputStream inputStream = Multiplication.class.getClassLoader().getResourceAsStream("internal.properties");
         assert inputStream != null;
         properties.load(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
@@ -81,21 +83,21 @@ public class ReaderProperties {
      */
     private boolean readPropertiesFromMyFile(Properties properties) {
         log.info("check the properties file for the required values");
-        if (properties.containsKey(KEYS[0]) && properties.containsKey(KEYS[1]) && properties.containsKey(KEYS[2])) {
-            for (int i = 0; i < KEYS.length; ++i) {
-                String temp = properties.getProperty(KEYS[i]);
-                temp = temp.replace(" ", "").replace(",", ".");
-                if (!checkArgumentForValue(temp)) {
-                    propertyValues.clear();
-                    return false;
-                }
-                propertyValues.add(Double.parseDouble(temp));
+        for (Map.Entry<String, Double> item : property.entrySet()) {
+            String temp = properties.getProperty(item.getKey());
+            if (temp == null) {
+                log.debug("properties file does not contain required properties");
+                return false;
             }
-            log.info("properties from the file are read");
-            return true;
+            temp = temp.replace(" ", "").replace(",", ".");
+            if (!checkArgumentForValue(temp)) {
+                log.debug("properties file does not contain required properties");
+                return false;
+            }
+            item.setValue(Double.parseDouble(temp));
         }
-        log.debug("properties file does not contain required properties");
-        return false;
+        log.info("properties from the file are read");
+        return true;
     }
 
     /**
@@ -116,24 +118,20 @@ public class ReaderProperties {
      * @return - value from properties whose key "min"
      */
     public Double getMinimal() {
-        return propertyValues.get(0);
+        return property.get("min");
     }
 
     /**
      * @return - value from properties whose key "max"
      */
     public Double getMaximum() {
-        return propertyValues.get(1);
+        return property.get("max");
     }
 
     /**
      * @return - value from properties whose key "increment"
      */
     public Double getIncrement() {
-        return propertyValues.get(2);
-    }
-
-    public boolean readingResults(){
-        return propertyValues.get(0) !=null;
+        return property.get("increment");
     }
 }
