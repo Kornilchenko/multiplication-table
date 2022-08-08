@@ -10,6 +10,9 @@ public class MultiplicationTable {
     private final Double increment;
     char type;
 
+    /*
+    constructor
+     */
     public MultiplicationTable(Double min, Double max, Double inc, String[] args) {
         this.minimal = min;
         this.maximal = max;
