@@ -10,9 +10,6 @@ public class MultiplicationTable {
     private final Double increment;
     char type;
 
-    /*
-    constructor
-     */
     public MultiplicationTable(Double min, Double max, Double inc, String[] args) {
         this.minimal = min;
         this.maximal = max;
@@ -70,9 +67,6 @@ public class MultiplicationTable {
                     System.out.println();
                 }
             } else {
-                /*double min = (double) minimal;
-                double max = (double) maximal;
-                double inc = (double) increment;*/
                 for (double n = minimal; n <= maximal; n += increment) {
                     for (double m = minimal; m <= maximal; m += increment) {
                         System.out.printf("%.4f", m * n);
