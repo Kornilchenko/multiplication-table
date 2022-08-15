@@ -3,6 +3,8 @@ package com.project.multiplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DecimalFormat;
+
 public class MultiplicationTable {
     private static final Logger log = LoggerFactory.getLogger(MultiplicationTable.class);
     private final Double minimal;
@@ -35,6 +37,11 @@ public class MultiplicationTable {
         return 'i';
     }
 
+    /**
+     * validates property variables for further use
+     *
+     * @return - true if the properties are suitable for use
+     */
     private boolean checkVariableValues() {
         if (minimal == null) {
             log.error("no values in properties, program exit");
@@ -45,14 +52,18 @@ public class MultiplicationTable {
         } else if (maximal - minimal <= increment) {
             log.error("the increment is greater than or equal to the difference between the maximum and minimum values");
             return false;
-        } else if (increment <= 0){
+        } else if (increment <= 0) {
             log.error("increment is less than or equal to zero");
             return false;
         }
-            return true;
+        return true;
     }
 
+    /**
+     * prints the multiplication table to the console
+     */
     public void showMultiplicationTable() {
+        StringBuilder str= new StringBuilder();
         if (checkVariableValues()) {
             if (type == 'i') {
                 int min = minimal.intValue();
@@ -62,17 +73,20 @@ public class MultiplicationTable {
                     inc = 1;
                 for (int n = min; n <= max; n += inc) {
                     for (int m = min; m <= max; m += inc) {
-                        System.out.print(m * n + "\t");
+                        str.append(m * n).append("\t");
                     }
-                    System.out.println();
+                    String result = str.toString();
+                    log.info(result);
+                    str.setLength(0);
                 }
             } else {
                 for (double n = minimal; n <= maximal; n += increment) {
                     for (double m = minimal; m <= maximal; m += increment) {
-                        System.out.printf("%.4f", m * n);
-                        System.out.print("\t");
+                        str.append(new DecimalFormat("#0.0000").format(m*n)).append("\t");
                     }
-                    System.out.println();
+                    String result = str.toString();
+                    log.info(result);
+                    str.setLength(0);
                 }
             }
         }
