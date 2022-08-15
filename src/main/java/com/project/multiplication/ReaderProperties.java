@@ -15,21 +15,30 @@ public class ReaderProperties {
     private final HashMap<String, Double> property;
 
     /**
-     * class constructor
      *
-     * @param fileProperties - external file to read properties
+     * @param externalPropertiesFile -external file to read properties
      * @throws IOException - error reading external file
      */
-    public ReaderProperties(String fileProperties) throws IOException {
+    public ReaderProperties(String externalPropertiesFile) throws IOException {
+       this(externalPropertiesFile, "internal.properties");
+    }
+    /**
+     * class constructor
+     *
+     * @param externalPropertiesFile - external file to read properties
+     * @param internalPropertiesFile - internal file to read properties
+     * @throws IOException - error reading external file
+     */
+    public ReaderProperties(String externalPropertiesFile, String internalPropertiesFile) throws IOException {
         log.info("run constructor ReaderProperties class");
         property = new HashMap<>();
         property.put("min", null);
         property.put("max", null);
         property.put("increment", null);
-        Properties properties = readExternalFile(fileProperties);
+        Properties properties = readExternalFile(externalPropertiesFile);
         boolean reads = readPropertiesFromMyFile(properties);
         if (!reads) {
-            properties = readInternalFile();
+            properties = readInternalFile(internalPropertiesFile);
             reads = readPropertiesFromMyFile(properties);
         }
         if(!reads){
@@ -46,10 +55,10 @@ public class ReaderProperties {
      * @return - properties file
      * @throws IOException - error reading external file
      */
-    private Properties readInternalFile() throws IOException {
+    private Properties readInternalFile(String filename) throws IOException {
         Properties properties = new Properties();
         log.debug("read internal file properties");
-        InputStream inputStream = Multiplication.class.getClassLoader().getResourceAsStream("internal.properties");
+        InputStream inputStream = Multiplication.class.getClassLoader().getResourceAsStream(filename);
         assert inputStream != null;
         properties.load(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         return properties;
