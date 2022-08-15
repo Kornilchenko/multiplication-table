@@ -203,7 +203,7 @@ class TestMultiplication {
 
         System.out.flush();
         System.setOut(old);
-        String str = baos.toString().replace("\r", "");
+        String str = baos.toString().replace("\r", "").replace("\t", "");
         assertEquals("4\t8\t12\t16\t\n" +
                 "8\t16\t24\t32\t\n" +
                 "12\t24\t36\t48\t\n" +
